@@ -5,7 +5,7 @@ Example: python src/cli.py add 5 3
 
 import sys
 import click
-from calculator import add, subtract, multiply, divide
+from src.calculator import add, subtract, multiply, divide, power, square_root
 
 
 @click.command()
@@ -26,20 +26,26 @@ def calculate(operation, num1, num2=None):
             result = divide(num1, num2)
         elif operation == "power":
             result = power(num1, num2)
-        elif operation == "square_root":
+        elif operation == "sqrt":
             result = square_root(num1)
         else:
             click.echo(f"Unknown operation: {operation}")
             sys.exit(1)
 
-        # Format result nicely
-        if result == int(result):
+        # Format result: int if whole, else 2 decimals
+        if isinstance(result, float) and result.is_integer():
             click.echo(int(result))
-        else:
+        elif isinstance(result, float):
             click.echo(f"{result:.2f}")
+        else:
+            click.echo(result)
 
     except ValueError as e:
-        click.echo(f"Error: {e}")
+        # Specifically handle divide by zero
+        if "zero" in str(e).lower():
+            click.echo("Cannot divide by zero")
+        else:
+            click.echo(f"Error: {e}")
         sys.exit(1)
     except Exception as e:
         click.echo(f"Unexpected error: {e}")

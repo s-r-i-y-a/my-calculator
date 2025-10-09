@@ -2,6 +2,7 @@
 Calculator Module - Basic arithmetic operations
 Students will extend this with more functions
 """
+import math
 
 
 def add(a, b):
@@ -28,6 +29,15 @@ def divide(a, b):
     if b == 0:
         raise ValueError(f"Cannot divide {a} by zero - division by zero is undefined")
     return a / b
+
+
+def power(a, b):
+    return a ** b
+
+def square_root(a):
+    if a < 0:
+        raise ValueError("Cannot take square root of negative number")
+    return math.sqrt(a)
 
 
 # TODO: Students will add power, sqrt functions
